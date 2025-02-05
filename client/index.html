@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deutsch Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #chatbox {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+            text-align: left;
+            min-height: 100px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>💬 Deutsch Chatbot</h1>
+    <input type="text" id="prompt" placeholder="Gib eine Nachricht ein..." />
+    <button onclick="sendMessage()">Senden</button>
+    <div id="chatbox"></div>
+
+    <script>
+        async function sendMessage() {
+            const prompt = document.getElementById("prompt").value;
+            if (!prompt) return;
+
+            document.getElementById("chatbox").innerHTML += `<p><strong>Du:</strong> ${prompt}</p>`;
+
+            try {
+                const res = await fetch("http://localhost:3000/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt })
+                });
+
+                const data = await res.json();
+                document.getElementById("chatbox").innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+            } catch (error) {
+                console.error("Fehler:", error);
+                document.getElementById("chatbox").innerHTML += `<p><strong>Bot:</strong> Fehler beim Abrufen der Antwort.</p>`;
+            }
+
+            document.getElementById("prompt").value = "";
+        }
+    </script>
+</body>
+</html>
