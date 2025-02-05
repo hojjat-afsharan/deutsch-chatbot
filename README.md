@@ -1,6 +1,6 @@
 # deutsch-chatbot
-using cas/discolm-mfto-german slm 
-
+a simple chat bot to learn German
+using cas/discolm-mfto-german slm
 
 setup:
 1. download ollama https://ollama.com/download
